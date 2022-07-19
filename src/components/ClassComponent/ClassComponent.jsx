@@ -15,6 +15,7 @@ export class ClassComponent extends React.Component {
     e.preventDefault();
     this.setState(state => ({
       count: state.count + 1,
+      button: 'Угадать',
     }));
 
     this.setState(state => {
@@ -36,12 +37,17 @@ export class ClassComponent extends React.Component {
       return {
         result: `Вы угадали! Загаданное число ${state.userNumber}, число попыток ${state.count}`,
         button: 'Сыграть еще',
+        userNumber: '',
+        randomNumber: Math.floor(Math.random() * this.props.max - this.props.min) + this.props.min,
+        count: 0,
       };
     });
 
     this.setState({
       userNumber: '',
     });
+
+    console.log(this.state);
   };
 
   handleChange = e => {
