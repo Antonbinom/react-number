@@ -9,6 +9,8 @@ export class ClassComponent extends React.Component {
     randomNumber: Math.floor(Math.random() * this.props.max - this.props.min) + this.props.min,
     count: 0,
     button: 'Угадать',
+    label: 'Угадай число',
+    status: false,
   };
 
   handleSubmit = e => {
@@ -16,12 +18,14 @@ export class ClassComponent extends React.Component {
     this.setState(state => ({
       count: state.count + 1,
       button: 'Угадать',
+      status: false,
     }));
 
     this.setState(state => {
-      if (!state.userNumber) {
+      if (state.userNumber === '') {
         return {
           result: `Введите число`,
+          count: state.count - 1,
         };
       }
       if (state.userNumber > state.randomNumber) {
@@ -40,6 +44,9 @@ export class ClassComponent extends React.Component {
         userNumber: '',
         randomNumber: Math.floor(Math.random() * this.props.max - this.props.min) + this.props.min,
         count: 0,
+        label: 'Хотите сыграть еще?',
+        status: true,
+
       };
     });
 
@@ -62,7 +69,7 @@ export class ClassComponent extends React.Component {
         <p className={style.result}>{this.state.result}</p>
         <form className={style.form} onSubmit={this.handleSubmit}>
           <label className={style.label} htmlFor='user_number'>
-            Угадай число
+            {this.state.label}
           </label>
           <input
             className={style.input}
@@ -70,6 +77,7 @@ export class ClassComponent extends React.Component {
             id='user_number'
             onChange={this.handleChange}
             value={this.state.userNumber}
+            disabled={this.state.status}
           />
           <button className={style.btn}>{this.state.button}</button>
         </form>
